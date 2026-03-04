@@ -1,0 +1,262 @@
+
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Planes Parque Recreacional - 10 Estilos</title>
+
+  <!-- React 17 + ReactDOM -->
+  <script src="https://unpkg.com/react@17/umd/react.development.js" crossorigin></script>
+  <script src="https://unpkg.com/react-dom@17/umd/react-dom.development.js" crossorigin></script>
+
+  <!-- Babel Standalone (para que el navegador entienda JSX) -->
+  <script src="https://unpkg.com/@babel/standalone/babel.min.js" crossorigin></script>
+
+  <!-- Tailwind CSS (CDN build) -->
+  <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet" />
+
+  <style>
+    html, body { height: 100%; }
+    body { margin: 0; }
+  </style>
+</head>
+<body>
+  <div id="root"></div>
+    <script type="text/babel">
+function App() {
+  const [cantidad, setCantidad] = React.useState(0);
+  const [precioUnitario, setPrecioUnitario] = React.useState(0);
+  const [cuotas, setCuotas] = React.useState(1);
+  const [interes, setInteres] = React.useState(0);
+  const [solicitante, setSolicitante] = React.useState("");
+  const [fecha, setFecha] = React.useState("");
+
+  const totalHuevos = Number(cantidad);
+  const valorTotal = totalHuevos * Number(precioUnitario);
+  const interesTotal = valorTotal * (Number(interes) / 100);
+  const totalConInteres = valorTotal + interesTotal;
+  const cuotaValor = cuotas > 0 ? totalConInteres / cuotas : 0;
+  const cuotaHuevos = cuotas > 0 ? Math.ceil(totalHuevos / cuotas) : 0;
+
+  const inputStyle = {
+    width: "100%",
+    padding: "8px 10px",
+    border: "1px solid #bbb",
+    borderRadius: "4px",
+    fontSize: "14px",
+    background: "#fff",
+    color: "#333",
+    boxSizing: "border-box",
+  };
+
+  const labelStyle = {
+    display: "block",
+    fontSize: "12px",
+    fontWeight: "600",
+    color: "#555",
+    marginBottom: "4px",
+    textTransform: "uppercase",
+    letterSpacing: "0.5px",
+  };
+
+  const fieldStyle = { marginBottom: "16px" };
+
+  return (
+    <div style={{ background: "#f2f2f2", minHeight: "100vh", padding: "24px 16px", fontFamily: "monospace" }}>
+
+      {/* Header */}
+      <div style={{ maxWidth: "860px", margin: "0 auto 20px auto", background: "#fff", border: "1px solid #ccc", borderRadius: "6px", padding: "16px 20px", display: "flex", alignItems: "center", gap: "14px" }}>
+        <div style={{ width: "48px", height: "48px", border: "2px dashed #aaa", borderRadius: "50%", display: "flex", alignItems: "center", justifyContent: "center", fontSize: "22px", flexShrink: 0 }}>
+          🥚
+        </div>
+        <div>
+          <div style={{ fontSize: "11px", color: "#999", textTransform: "uppercase", letterSpacing: "1px" }}>Finca Feliz · Sistema de Crédito</div>
+          <div style={{ fontSize: "20px", fontWeight: "bold", color: "#333", letterSpacing: "-0.5px" }}>Calculadora de Préstamo de Huevos</div>
+          <div style={{ fontSize: "11px", color: "#aaa" }}>Gallinas Ponedoras · Vista Prototipo / Wireframe</div>
+        </div>
+      </div>
+
+      <div style={{ maxWidth: "860px", margin: "0 auto", display: "grid", gridTemplateColumns: "1fr 1fr", gap: "16px" }}>
+
+        {/* COLUMNA IZQUIERDA */}
+        <div style={{ display: "flex", flexDirection: "column", gap: "16px" }}>
+
+          {/* Datos del solicitante */}
+          <div style={{ background: "#fff", border: "1px solid #ccc", borderRadius: "6px", padding: "16px 18px" }}>
+            <div style={{ fontSize: "11px", fontWeight: "bold", color: "#999", textTransform: "uppercase", letterSpacing: "1px", marginBottom: "14px", borderBottom: "1px dashed #ddd", paddingBottom: "8px" }}>
+              [ 01 ] Datos del Solicitante
+            </div>
+
+            <div style={fieldStyle}>
+              <label style={labelStyle}>Nombre del solicitante</label>
+              <input style={inputStyle} type="text" placeholder="Ej: Juan Pérez" value={solicitante} onChange={e => setSolicitante(e.target.value)} />
+            </div>
+
+            <div style={fieldStyle}>
+              <label style={labelStyle}>Fecha de solicitud</label>
+              <input style={inputStyle} type="date" value={fecha} onChange={e => setFecha(e.target.value)} />
+            </div>
+
+            <div style={fieldStyle}>
+              <label style={labelStyle}>Tipo de solicitante</label>
+              <select style={inputStyle}>
+                <option value="">— Seleccionar —</option>
+                <option>Trabajador de la finca</option>
+                <option>Proveedor externo</option>
+                <option>Familiar del propietario</option>
+                <option>Otro</option>
+              </select>
+            </div>
+          </div>
+
+          {/* Datos del préstamo */}
+          <div style={{ background: "#fff", border: "1px solid #ccc", borderRadius: "6px", padding: "16px 18px" }}>
+            <div style={{ fontSize: "11px", fontWeight: "bold", color: "#999", textTransform: "uppercase", letterSpacing: "1px", marginBottom: "14px", borderBottom: "1px dashed #ddd", paddingBottom: "8px" }}>
+              [ 02 ] Datos del Préstamo
+            </div>
+
+            <div style={fieldStyle}>
+              <label style={labelStyle}>Cantidad de huevos a prestar</label>
+              <input style={inputStyle} type="number" min="0" placeholder="Ej: 30" value={cantidad || ""} onChange={e => setCantidad(e.target.value)} />
+              <div style={{ fontSize: "11px", color: "#aaa", marginTop: "3px" }}>Unidades (huevos)</div>
+            </div>
+
+            <div style={fieldStyle}>
+              <label style={labelStyle}>Precio unitario por huevo ($)</label>
+              <input style={inputStyle} type="number" min="0" step="0.01" placeholder="Ej: 500" value={precioUnitario || ""} onChange={e => setPrecioUnitario(e.target.value)} />
+              <div style={{ fontSize: "11px", color: "#aaa", marginTop: "3px" }}>Valor de referencia en pesos</div>
+            </div>
+
+            <div style={fieldStyle}>
+              <label style={labelStyle}>Interés aplicado (%)</label>
+              <input style={inputStyle} type="number" min="0" max="100" step="0.5" placeholder="Ej: 5" value={interes || ""} onChange={e => setInteres(e.target.value)} />
+              <div style={{ fontSize: "11px", color: "#aaa", marginTop: "3px" }}>0% = sin interés (préstamo en especie)</div>
+            </div>
+
+            <div style={fieldStyle}>
+              <label style={labelStyle}>Modalidad de devolución</label>
+              <select style={inputStyle}>
+                <option>En huevos (especie)</option>
+                <option>En dinero (efectivo)</option>
+                <option>Mixto (huevos + dinero)</option>
+              </select>
+            </div>
+          </div>
+        </div>
+
+        {/* COLUMNA DERECHA */}
+        <div style={{ display: "flex", flexDirection: "column", gap: "16px" }}>
+
+          {/* Deslizador de cuotas */}
+          <div style={{ background: "#fff", border: "1px solid #ccc", borderRadius: "6px", padding: "16px 18px" }}>
+            <div style={{ fontSize: "11px", fontWeight: "bold", color: "#999", textTransform: "uppercase", letterSpacing: "1px", marginBottom: "14px", borderBottom: "1px dashed #ddd", paddingBottom: "8px" }}>
+              [ 03 ] Número de Cuotas
+            </div>
+
+            <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center", marginBottom: "8px" }}>
+              <span style={{ fontSize: "12px", color: "#777" }}>1 cuota</span>
+              <div style={{ textAlign: "center" }}>
+                <div style={{ fontSize: "36px", fontWeight: "bold", color: "#333", lineHeight: 1 }}>{cuotas}</div>
+                <div style={{ fontSize: "11px", color: "#aaa" }}>cuota{cuotas > 1 ? "s" : ""} seleccionada{cuotas > 1 ? "s" : ""}</div>
+              </div>
+              <span style={{ fontSize: "12px", color: "#777" }}>12 cuotas</span>
+            </div>
+
+            <input
+              type="range"
+              min="1"
+              max="12"
+              value={cuotas}
+              onChange={e => setCuotas(Number(e.target.value))}
+              style={{ width: "100%", accentColor: "#555", cursor: "pointer" }}
+            />
+
+            {/* Marcas del slider */}
+            <div style={{ display: "flex", justifyContent: "space-between", marginTop: "4px" }}>
+              {[1,2,3,4,5,6,7,8,9,10,11,12].map(n => (
+                <div key={n} style={{ fontSize: "9px", color: n === cuotas ? "#333" : "#ccc", fontWeight: n === cuotas ? "bold" : "normal", textAlign: "center" }}>
+                  {n}
+                </div>
+              ))}
+            </div>
+
+            <div style={{ marginTop: "14px", background: "#f7f7f7", border: "1px dashed #ccc", borderRadius: "4px", padding: "10px 12px" }}>
+              <div style={{ fontSize: "11px", color: "#888", marginBottom: "6px", textTransform: "uppercase" }}>Frecuencia de pago</div>
+              <div style={{ display: "flex", gap: "8px" }}>
+                {["Semanal", "Quincenal", "Mensual"].map(f => (
+                  <label key={f} style={{ fontSize: "12px", color: "#555", display: "flex", alignItems: "center", gap: "4px", cursor: "pointer" }}>
+                    <input type="radio" name="frecuencia" value={f} defaultChecked={f === "Mensual"} />
+                    {f}
+                  </label>
+                ))}
+              </div>
+            </div>
+          </div>
+
+          {/* Área de resultados */}
+          <div style={{ background: "#fff", border: "2px solid #333", borderRadius: "6px", padding: "16px 18px" }}>
+            <div style={{ fontSize: "11px", fontWeight: "bold", color: "#333", textTransform: "uppercase", letterSpacing: "1px", marginBottom: "14px", borderBottom: "2px solid #333", paddingBottom: "8px", display: "flex", justifyContent: "space-between" }}>
+              <span>[ 04 ] Resumen del Préstamo</span>
+              <span style={{ color: "#aaa", fontWeight: "normal" }}>Resultado</span>
+            </div>
+
+            {/* Fila de resultados */}
+            {[
+              { label: "Total huevos prestados", value: `${totalHuevos} huevos`, highlight: false },
+              { label: "Valor total del préstamo", value: `$${valorTotal.toLocaleString("es-CO")}`, highlight: false },
+              { label: "Interés total", value: `$${interesTotal.toLocaleString("es-CO")}`, highlight: false },
+              { label: "Total a devolver", value: `$${totalConInteres.toLocaleString("es-CO")}`, highlight: true },
+            ].map((row, i) => (
+              <div key={i} style={{ display: "flex", justifyContent: "space-between", alignItems: "center", padding: "8px 0", borderBottom: "1px dashed #eee" }}>
+                <span style={{ fontSize: "12px", color: "#666" }}>{row.label}</span>
+                <span style={{ fontSize: row.highlight ? "16px" : "13px", fontWeight: row.highlight ? "bold" : "600", color: row.highlight ? "#222" : "#444", background: row.highlight ? "#f0f0f0" : "transparent", padding: row.highlight ? "2px 8px" : "0", borderRadius: "3px", border: row.highlight ? "1px solid #ccc" : "none" }}>
+                  {row.value}
+                </span>
+              </div>
+            ))}
+
+            {/* Cuota */}
+            <div style={{ marginTop: "14px", background: "#f7f7f7", border: "1px solid #ccc", borderRadius: "4px", padding: "12px 14px", display: "grid", gridTemplateColumns: "1fr 1fr", gap: "10px" }}>
+              <div style={{ textAlign: "center" }}>
+                <div style={{ fontSize: "10px", color: "#999", textTransform: "uppercase", marginBottom: "4px" }}>Valor por cuota</div>
+                <div style={{ fontSize: "22px", fontWeight: "bold", color: "#333" }}>${cuotaValor.toLocaleString("es-CO", { maximumFractionDigits: 0 })}</div>
+              </div>
+              <div style={{ textAlign: "center", borderLeft: "1px dashed #ccc" }}>
+                <div style={{ fontSize: "10px", color: "#999", textTransform: "uppercase", marginBottom: "4px" }}>Huevos por cuota</div>
+                <div style={{ fontSize: "22px", fontWeight: "bold", color: "#333" }}>{cuotaHuevos} 🥚</div>
+              </div>
+            </div>
+
+            {/* Botones */}
+            <div style={{ display: "flex", gap: "8px", marginTop: "14px" }}>
+              <button style={{ flex: 1, padding: "10px", background: "#333", color: "#fff", border: "none", borderRadius: "4px", fontSize: "12px", fontWeight: "bold", cursor: "pointer", textTransform: "uppercase", letterSpacing: "1px" }}>
+                Generar Contrato
+              </button>
+              <button style={{ padding: "10px 14px", background: "#fff", color: "#555", border: "1px solid #ccc", borderRadius: "4px", fontSize: "12px", cursor: "pointer" }}>
+                🖨 Imprimir
+              </button>
+              <button onClick={() => { setCantidad(0); setPrecioUnitario(0); setCuotas(1); setInteres(0); setSolicitante(""); setFecha(""); }}
+                style={{ padding: "10px 14px", background: "#fff", color: "#555", border: "1px solid #ccc", borderRadius: "4px", fontSize: "12px", cursor: "pointer" }}>
+                ↺ Reset
+              </button>
+            </div>
+          </div>
+
+          {/* Nota wireframe */}
+          <div style={{ background: "#fffbe6", border: "1px dashed #e0c060", borderRadius: "4px", padding: "10px 14px" }}>
+            <div style={{ fontSize: "10px", color: "#a08020", textTransform: "uppercase", fontWeight: "bold", marginBottom: "4px" }}>📌 Nota para estudiantes</div>
+            <div style={{ fontSize: "11px", color: "#806010", lineHeight: "1.6" }}>
+              Este es un prototipo neutro (wireframe). Aplica tu propio sistema de colores, tipografía, iconografía y estilo visual. Los cálculos son funcionales y reactivos.
+            </div>
+          </div>
+
+        </div>
+      </div>
+    </div>
+  );
+}
+    ReactDOM.render(<App />, document.getElementById("root"));
+  </script>
+</body>
+</html>
